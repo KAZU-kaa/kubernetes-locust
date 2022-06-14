@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: locust-worker
+  name: locust-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: locust-worker
+  template:
+    metadata:
+      labels:
+        app: locust-worker
+    spec:
+      containers:
+        - name: locust-worker
+          env:
+            - name: LOCUST_MODE
+              value: worker
+            - name: LOCUST_MASTER
+              value: locust-master
+            - name: LOCUST_LOCUSTFILE
+              value: /mnt/locustfile.py
+          args: ["--worker", "--master-host", "$(LOCUST_MASTER)"] 
+          image: kaxu/mylocust:v1.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4545
