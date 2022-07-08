@@ -14,7 +14,7 @@ tasks = []
 with open(f"/mnt/sinario10.csv", "r", encoding="utf-8") as f:
     reader = csv.reader(f)
     for i in reader:
-        tasks.append(i[1:])
+        tasks.append(i)
 
 class MyUser(HttpUser):
 
